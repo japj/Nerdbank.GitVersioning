@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET461
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
@@ -1204,3 +1205,4 @@ public class BuildIntegrationTests : RepoTestBase
         }
     }
 }
+#endif

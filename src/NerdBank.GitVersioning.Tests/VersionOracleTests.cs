@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET461
+using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -319,3 +320,4 @@ public class VersionOracleTests : RepoTestBase
         this.Logger.WriteLine(ex.ToString());
     }
 }
+#endif

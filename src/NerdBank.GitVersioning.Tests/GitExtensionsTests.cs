@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET461
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -440,3 +441,4 @@ public class GitExtensionsTests : RepoTestBase
         }
     }
 }
+#endif

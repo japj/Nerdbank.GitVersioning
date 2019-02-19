@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET461
+using System;
 using System.IO;
 using System.Linq;
 using LibGit2Sharp;
@@ -412,3 +413,4 @@ public class ReleaseManagerTests : RepoTestBase
         Assert.Equal(expectedError, ex.Error);
     }
 }
+#endif

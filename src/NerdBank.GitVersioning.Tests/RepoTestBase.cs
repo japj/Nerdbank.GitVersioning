@@ -1,4 +1,5 @@
-﻿namespace Nerdbank.GitVersioning.Tests
+﻿#if NET461
+namespace Nerdbank.GitVersioning.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -150,3 +151,4 @@
         }
     }
 }
+#endif

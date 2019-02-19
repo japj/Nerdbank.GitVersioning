@@ -84,6 +84,7 @@ internal static partial class ThisAssembly {
             Assert.Equal(expected, built);
         }
 
+#if NET461
         [Fact]
         public void CSharpCodeDomGenerator()
         {
@@ -123,5 +124,6 @@ internal sealed partial class ThisAssembly {
 ";
             Assert.Equal(expected, built);
         }
+#endif
     }
 }

@@ -1,4 +1,5 @@
-﻿using SevenZipNET;
+﻿#if NET461
+using SevenZipNET;
 using Validation;
 
 namespace Nerdbank.GitVersioning.Tests
@@ -108,3 +109,4 @@ namespace Nerdbank.GitVersioning.Tests
         }
     }
 }
+#endif
