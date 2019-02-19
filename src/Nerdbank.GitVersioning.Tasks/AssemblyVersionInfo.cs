@@ -70,33 +70,33 @@
         public string GitCommitId { get; set; }
 
 #if NET461
+        public string BuildCodeWithCodeDomProvider()
+        {
+            using (var codeDomProvider = CodeDomProvider.CreateProvider(this.CodeLanguage))
+            {
+                this.generatedFile = new CodeCompileUnit();
+                this.generatedFile.AssemblyCustomAttributes.AddRange(this.CreateAssemblyAttributes().ToArray());
+
+                var ns = new CodeNamespace();
+                this.generatedFile.Namespaces.Add(ns);
+                ns.Types.Add(this.CreateThisAssemblyClass());
+
+                using (var stringWriter = new StringWriter())
+                {
+                    codeDomProvider.GenerateCodeFromCompileUnit(this.generatedFile, stringWriter, codeGeneratorOptions);
+
+                    return stringWriter.ToString();
+                }
+            }
+        }
+
         public override bool Execute()
         {
             if (CodeDomProvider.IsDefinedLanguage(this.CodeLanguage))
             {
-                using (var codeDomProvider = CodeDomProvider.CreateProvider(this.CodeLanguage))
-                {
-                    this.generatedFile = new CodeCompileUnit();
-                    this.generatedFile.AssemblyCustomAttributes.AddRange(this.CreateAssemblyAttributes().ToArray());
-
-                    var ns = new CodeNamespace();
-                    this.generatedFile.Namespaces.Add(ns);
-                    ns.Types.Add(this.CreateThisAssemblyClass());
-
-                    Directory.CreateDirectory(Path.GetDirectoryName(this.OutputFile));
-                    FileStream file = null;
-                    Utilities.FileOperationWithRetry(() => file = File.OpenWrite(this.OutputFile));
-                    using (file)
-                    {
-                        using (var fileWriter = new StreamWriter(file, new UTF8Encoding(true), 4096, leaveOpen: true))
-                        {
-                            codeDomProvider.GenerateCodeFromCompileUnit(this.generatedFile, fileWriter, codeGeneratorOptions);
-                        }
-
-                        // truncate to new size.
-                        file.SetLength(file.Position);
-                    }
-                }
+                string fileContent = this.BuildCodeWithCodeDomProvider();
+                Directory.CreateDirectory(Path.GetDirectoryName(this.OutputFile));
+                Utilities.FileOperationWithRetry(() => File.WriteAllText(this.OutputFile, fileContent));
             }
             else
             {
